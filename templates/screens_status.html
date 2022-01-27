@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+{% load static%}
+{% block title %}
+    Camers of fail
+{% endblock title %}
+{% block content %}
+  <div class="card shadow-sm">
+        <div class="card-header">
+            {% if screens.0.name == 'grz' %} ГРЗ {% endif %}
+            {% if screens.0.name == 'dvn' %} ДВН {% endif %}
+            {% if screens.0.name == 'pes' %} ПЭС {% endif %}
+            {% if screens.0.name == 'pvn' %} ПВН {% endif %}
+            <h6 class="text-muted"> {{ screens.0.create_at|date:'d-m-Y H:i' }} </h6>
+        </div>
+        <div class="card-body">
+            {% if screens.0.status %}
+                Скриншоты:<br>
+                <div class="row">
+                    {% for item in screens %}
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a href="#" type="button" class="link-dark stretched-link" data-bs-toggle="modal" data-bs-target="#My-{{item.file|cut:'.jpeg'}}">
+                                        {{item.file|cut:'.jpeg'}}<br>
+                                    </a>
+                                    <img class="img-fluid" src="{% static item.dir_path|add:'/'|add:item.file %}" alt="...">
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="My-{{item.file|cut:'.jpeg'}}" tabindex="-1" aria-labelledby="My-{{item.file|cut:'.jpeg'}}" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title text-muted" id="My-{{item.file|cut:'.jpeg'}}">{{ item.file|cut:'.jpeg' }}</h6>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="img-fluid" src="{% static item.dir_path|add:'/'|add:item.file %}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                Недоступны камеры:<br>
+                
+                {% for item in screens %}
+                    {{item.file|cut:'.jpeg'}}<br>
+                {% endfor %}
+            {% endif %}
+           
+        </div>
+    </div>
+    
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% load static %}
+<div class="container-fluid bg-secondary">
+    <div class="container text-light">
+        <div class="row">
+            <div class="col-2 m-2">
+                <img width="70" height="70" src="{% static 'img/smiling-face.png' %}" alt="">
+            </div>
+            <div class="col m-2">
+                SCREENS
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">Главная</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'show_camers' types='grz' %}">ГРЗ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'show_camers' types='dvn' %}">ДВН</a>
+          </li>
+           <li class="nav-item">
+            <a class="nav-link" href="{% url 'show_camers' types='pvn' %}">ПВН</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'show_camers' types='pes' %}">ПЭС</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

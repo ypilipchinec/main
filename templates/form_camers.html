@@ -1,0 +1,56 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Создание/изенение камеры {{type}}{% endblock title %}
+{% block content %}
+   <div class="card">
+       <div class="card-header">
+           <h6>Создание камеры типа <span class="text-uppercase">{{type}}</span></h6>
+       </div>
+      {% if post %}
+        {{post}} <br>
+        {{request}}
+      {% endif %}
+       <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{form.non_fields_errors}}
+                <div class="form-group form-control">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="{{form.name.id_for_label}}" class="col-form-label">Имя камеры:</label>
+                        </div>
+                        <div class="col">
+                            {{form.name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                                <label for="{{form.address.id_for_label}}" class="col-form-label">IP-адрес:</label>
+                        </div>
+                        <div class="col">
+                                {{form.address}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                                <label for="{{form.link.id_for_label}}" class="col-form-label">RTSP-ссылка:</label>
+                        </div>
+                        <div class="col">
+                                {{form.link}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                                <label for="{{form.guid.id_for_label}}" class="col-form-label">GUID:</label>
+                        </div>
+                        <div class="col">
+                                {{form.guid}}
+                        </div>
+                    </div>
+                </div>
+               <div class="form-group mt-2">
+                   <button type="submit" class="btn btn-sm btn-outline-secondary "> Сохранить </button>
+               </div>
+            </form>
+       </div>
+   </div>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+{% block title %}
+    Скриншоты
+{% endblock title %}
+{% block content %}
+{% if paginator.has_other_pages %}
+<nav aria-label="Page navigation">
+  <ul class="pagination pagination-sm justify-content-center">
+    {% if paginator.has_previous %}
+      <li class="page-item text-secondary">
+        <a class="page-link link-secondary" href="?page={{ paginator.previous_page_number }}">&laquo;</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link text-secondary">&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.paginator.page_range %}
+      {% if paginator.number == i %}
+        <li class="page-item active" aria-current="page"><span class="page-link bg-secondary text-white border border-secondary">{{ i }}</span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link link-secondary" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if paginator.has_next %}
+      <li class="page-item"><a class="page-link link-secondary" href="?page={{ paginator.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link text-secondary">&raquo;</span></li>
+    {% endif %}
+  </ul>
+</nav>
+  
+{% endif %}
+<div class="row align-items-md-stretch">
+
+  {% regroup camers|dictsort:'type' by type as type_list %}
+    {% for type in type_list %}
+      <div class="col md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h6 class="card-title">
+              Всего камер 
+              <span class="text-uppercase">{{type.grouper}}:</span>
+              {% for item in type.list %}
+                {{item.count}}
+              {% endfor %}
+              </h5>
+              {% regroup paginator by create_at  as date_list %}
+                {% for create_at, count_camers in date_list %}
+                  {% if type.grouper == count_camers.0.name %}
+                    <div class="p-1 m-2 bg-light border rounded-3">
+                      <h6 class="card-subtitle mb-2 text-muted">{{ create_at|date:'d-m-Y H:i'}}</h6>
+                      <ul class="list-group">
+                        {% for item in count_camers %}
+                          <li class="list-group-item">
+                            {% if item.status %}
+                              <a href="{% url 'screens_status' names=item.name status=item.status created_at=create_at|date:'Y-m-d H:i:s' %}"class="link-dark stretched-link text-decoration-none">
+                                Создано скриншотов: {{ item.count }}
+                              </a>
+                            {% else %}
+                              <a href="{% url 'screens_status' names=item.name status=item.status created_at=create_at|date:'Y-m-d H:i:s' %}" class="link-dark stretched-link text-decoration-none">
+                                Камер недоступно: {{ item.count }}
+                              </a>
+                            {% endif %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    
+                  {% endif %}
+                {% endfor %}
+               
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+</div>
+    
+{% endblock content %}
