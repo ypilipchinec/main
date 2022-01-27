@@ -46,7 +46,7 @@
                     Камеры <span class="text-uppercase"> {{camers.0.type}} </span>
                 </div>
                 <div class="col">
-                    <a href="{% url 'form_camers' type=camers.0.type id=0 %}" class="btn btn-outline-primary btn-sm">создать</a>
+                    <a href="{% url 'create_camers' types=camers.0.type%}" class="btn btn-outline-primary btn-sm">создать</a>
                 </div>
             </div>
         </div>

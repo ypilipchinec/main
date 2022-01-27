@@ -1,19 +1,34 @@
 {% extends 'layouts/base.html' %}
-{% block title %}Создание/изенение камеры {{type}}{% endblock title %}
+{% block title %}Создание/изменение камеры {{type}}{% endblock title %}
 {% block content %}
-   <div class="card">
+   <div class="card shadow">
        <div class="card-header">
            <h6>Создание камеры типа <span class="text-uppercase">{{type}}</span></h6>
        </div>
-      {% if post %}
-        {{post}} <br>
-        {{request}}
-      {% endif %}
+       {{messages}}<br>
+       {% if messages %}
+            Сообщения:
+            {% for message in messages %}
+                {{message}}<br>
+            {% endfor %}
+           <br> 
+           {{request}}
+            {{type}}
+       {% endif %}
+      
        <div class="card-body">
-            <form method="post">
+            <form action="{% url 'create_camers'%}" method="post">
                 {% csrf_token %}
                 {{form.non_fields_errors}}
                 <div class="form-group form-control">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="{{form.types.id_for_label}}" class="col-form-label">Тип камеры:</label>
+                        </div>
+                        <div class="col">
+                            {{form.types}}
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-2">
                             <label for="{{form.name.id_for_label}}" class="col-form-label">Имя камеры:</label>

@@ -3,6 +3,7 @@ from django.db.models import Count
 from django import template
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 
 #models
 from .models import *
@@ -24,21 +25,21 @@ def get_paginate(page, get_query, number):
     except EmptyPage:
         page_camers = paginator.page(paginator.num_pages)
     return page_camers
+def edit_camers(request, id):
+    pass
 
-def form_camers(request, type, id):
+def create_camers(request):
     if request.method == 'POST':
         form = CamersForm(request.POST)
         if form.is_valid():
-            post = 'форму заполнил'
+            messages.success(request, 'форму заполнил')
         else:
-            post = 'форма неверна'
+            messages.error(request, 'форма неверна')
     else:
         post = 'пустая форма'
     form = CamersForm
     context = {
         'request': request.POST,
-        'post': post,
-        'type': type,
         'id': id,
         'form': form
     }
@@ -75,6 +76,7 @@ def screens_status(request, names, status, created_at):
 
 
 def index(request):
+    #test here
     get_camers = camers.objects.values('name').values('type').annotate(count=Count('id'))
     get_type = list()
     get_type = files.objects.values('create_at', 'status', 'name').annotate(count=Count('id')).order_by('-create_at')
