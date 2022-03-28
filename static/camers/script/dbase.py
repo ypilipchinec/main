@@ -36,7 +36,6 @@ def get_select_from_db(tbl) -> list:
 
 def insert_from_db(**values)->list:
     creds = get_db_creds()
-    
     with psycopg2.connect(**creds) as conn:
         with conn.cursor() as cursor:
             insert_query = 'insert into screens_files (name, dir_path, file, status, create_at) values (%s, %s, %s, %s, %s)'

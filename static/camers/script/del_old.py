@@ -16,6 +16,19 @@ def get_date():
 def get_row():
     date = get_date()
     return get_old_row(date)
+
+def remove_file(path):
+
+	# removing the file
+	if not os.remove(path):
+
+		# success message
+		print(f"{path} is removed successfully")
+
+	else:
+
+		# failure message
+		print(f"Unable to delete the {path}")
     
 def main():
    old_row = get_row()
@@ -29,6 +42,7 @@ def main():
            filename = del_old_folder + "/" + row[3]
            if os.path.isfile(filename):
               delete_row(row[3])
+              remove_file(filename)
            
        
 
