@@ -46,8 +46,18 @@ def insert_from_db(**values)->list:
             cursor.close()
         #conn.close()
 
-
-def get_arguments(**args):
-    print('table name = ',args['tbl'], 'dir_name = ',args['dir_path'], ', file name = ',args['file'], ', status = ',args['status'], ', create_at = ', args['create_at'])
-#    for key, value in args.items():
-#       print('key = ', key, ' : ', 'values = ', value)
+def get_old_row(date):
+    creds = get_db_creds()
+    with psycopg2.connect(**creds) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(f"select * from screens_files where create_at < '{date}'")
+            get_row = cursor.fetchall()
+            return get_row
+        
+def delete_row(filename):
+    creds = get_db_creds()
+    with psycopg2.connect(**creds) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(f"delete from screens_files where file = '{filename}'")
+            conn.commit()
+            cursor.close()
